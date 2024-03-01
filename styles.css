@@ -1,0 +1,221 @@
+* {
+    font-family: 'Poppins', Arial, Helvetica, sans-serif;
+}
+
+body {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+}
+
+button {
+    padding: .75rem 1.25rem;
+    background: #FFB800;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 2rem;
+    width: 85%;
+    border: none;
+    margin-top: 2rem;
+    cursor: pointer;
+    color: white;
+}
+
+button:hover {
+    background: #FF8C00;
+}
+
+#world-map {
+    width: 50vw;
+    height: 50vh;
+}
+
+path {
+    fill: #2EC771;
+    transition: fill 0.3s ease; 
+    cursor: pointer;
+}
+
+path:hover {
+    fill: #FFB800;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.overlay-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    width: 80vw;
+    height: 90vh; /* Veranderd naar auto */
+    box-sizing: border-box;
+    overflow-y: auto;
+    border: solid #FFB800 6px;
+    position: absolute; /* Veranderd naar absolute */
+    top: 50%; /* Veranderd */
+    left: 50%; /* Veranderd */
+    transform: translate(-50%, -50%); /* Veranderd */
+    min-height: 75%;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: flex-start;
+}
+
+.quiz-overlay-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    width: 80vw;
+    height: 90vh; /* Veranderd naar auto */
+    box-sizing: border-box;
+    overflow-y: auto;
+    border: solid #FFB800 6px;
+    position: absolute; /* Veranderd naar absolute */
+    top: 50%; /* Veranderd */
+    left: 50%; /* Veranderd */
+    transform: translate(-50%, -50%); /* Veranderd */
+    min-height: 75%;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+}
+
+.land-naam {
+    font-weight: bold;
+    font-size: 32px;
+    position: absolute;
+    top: 20px;
+    left: 0;
+}
+
+.close-button {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 40px;
+    height: 40px;
+    background-color: #FFB800;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    text-align: center;
+    flex-direction: column;
+    font-weight: bold;
+}
+
+.close-button:hover {
+    background-color: #FF8C00;
+}
+
+.overlay-left {
+    width: fit-content;
+    height: auto;
+    position: relative;
+}
+  
+.overlay-menu {
+    display: flex;
+    flex-flow: column nowrap;
+    margin-top: 40%;
+}
+
+.category {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    margin-bottom: 1rem;
+    font-size: 24px;
+    font-weight: bold;
+    background: #FFB800;
+    cursor: pointer;
+    padding: .75rem;
+    border-radius: 8px;
+    margin-right: 2.5rem;
+}
+
+.category:last-child {
+    margin-bottom: 0;
+}
+
+.category:hover {
+    background: #FF8C00;
+}
+
+.category-name {
+    margin-right: auto;
+    padding-right: 2rem;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+}
+  
+.overlay-right {
+    padding: 1rem 2rem;
+    padding-right: 5rem;
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.article-image-text {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: solid 1px lightgrey;
+}
+
+@media only screen and (min-width: 1600px) {
+    .article-image-text {
+      flex-flow: row nowrap;
+    }
+}
+
+.article-image {
+    margin-right: 4rem;
+}
+
+.article-image img {
+    width: 400px;
+}
+
+.article-intro {
+    padding-right: 2rem;
+}
+
+.article-intro h1 {
+    font-size: 52px;
+    margin-bottom: 0;
+}
+
+.article-intro p {
+    font-weight: bold;
+}
+
+.article-text {
+    margin-bottom: 1.5rem;
+    width: 80%;
+}
+
+.correct-answer {
+    background-color: #2EC771; /* Groen */
+}
+
+.incorrect-answer {
+    background-color: #FF6347; /* Rood */
+}

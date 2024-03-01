@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <title>Worldwise</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div id="world-map"></div>
+
+  <!-- Overlay HTML structure -->
+  <div id="overlay" class="overlay">
+    <div id="overlay-content" class="overlay-content">
+      <div class="overlay-left">
+        <div id="land-naam" class="land-naam"></div>
+        <div class="overlay-menu">
+          <div class="category">
+            <div class="category-name">
+              Hoofdstad
+            </div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-right" width="28" height="28" viewBox="0 0 24 24" stroke-width="2" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+              <path d="M9 6l6 6l-6 6" />
+            </svg>
+          </div>
+          <div class="category">
+            <div class="category-name">
+              Bevolking
+            </div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-right" width="28" height="28" viewBox="0 0 24 24" stroke-width="2" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+              <path d="M9 6l6 6l-6 6" />
+            </svg>
+          </div>
+          <div class="category">
+            <div class="category-name">
+              Landschap
+            </div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-right" width="28" height="28" viewBox="0 0 24 24" stroke-width="2" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+              <path d="M9 6l6 6l-6 6" />
+            </svg>
+          </div>
+          <div class="category">
+            <div class="category-name">
+              Cultuur
+            </div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-right" width="28" height="28" viewBox="0 0 24 24" stroke-width="2" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+              <path d="M9 6l6 6l-6 6" />
+            </svg>
+          </div>
+          <button class="quiz-button">
+            Start de quiz
+          </button>
+        </div>
+      </div>
+      <div class="overlay-right overlay-right--capital">
+        <div class="article-image-text">
+          <div class="article-image">
+            <img src="images/berlijn.png" alt="">
+          </div>
+          <div class="article-intro">
+            <h1>De hoofdstad van Duitsland is Berlijn.</h1>
+            <p>Met 3.866.385 inwoners is Berlijn  de grootste stad van het land. Daarnaast is Berlijn - gerekend naar inwonertal binnen de stadsgrenzen - de grootste stad van de Europese Unie.</p>
+          </div>
+        </div>
+        <div class="article-text"></div>
+      </div>
+      <div id="close-button" class="close-button">X</div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
