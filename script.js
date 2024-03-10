@@ -106,12 +106,10 @@ document.addEventListener('DOMContentLoaded', function() {
     overlayContent.classList.add('quiz-overlay-content');
     quizOverlay.appendChild(overlayContent);
   
-    // Quizvraag toevoegen
     const quizQuestion = document.createElement('h2');
     quizQuestion.textContent = 'Vraag 1: ' + questions[0].question;
     overlayContent.appendChild(quizQuestion);
   
-    // Quizantwoorden toevoegen
     const answers = questions[0].answers;
   
     answers.forEach(answer => {
@@ -120,9 +118,7 @@ document.addEventListener('DOMContentLoaded', function() {
       answerButton.classList.add('quiz-answer');
       overlayContent.appendChild(answerButton);
   
-      // Event listener toevoegen aan de antwoordknoppen
       answerButton.addEventListener('click', function() {
-        // Controleer of het gegeven antwoord correct is
         const correctAnswer = questions[0].correctAnswer;
         if (answer === correctAnswer) {
           answerButton.classList.add('correct-answer');
@@ -131,16 +127,13 @@ document.addEventListener('DOMContentLoaded', function() {
           answerButton.classList.add('incorrect-answer');
         }
         
-        // Voeg tekst toe die aangeeft of het antwoord goed of fout is
         const answerStatus = overlayContent.querySelector('.answer-status');
         if (!answerStatus) {
-          // Als er nog geen paragraaf is toegevoegd, maak er een en voeg deze toe
           const newAnswerStatus = document.createElement('p');
           newAnswerStatus.classList.add('answer-status');
           overlayContent.appendChild(newAnswerStatus);
         }
 
-        // Update de tekst van het bestaande paragraafelement
         const existingAnswerStatus = overlayContent.querySelector('.answer-status');
         existingAnswerStatus.textContent = answer === correctAnswer ? 'Goed!' : 'Fout!';
       });
@@ -164,15 +157,12 @@ document.addEventListener('DOMContentLoaded', function() {
     nextQuestionButton.classList.add('next-question-button');
     overlayContent.appendChild(nextQuestionButton);
 
-    // Voeg een event listener toe aan de knop voor de volgende vraag
     nextQuestionButton.addEventListener('click', function() {
-      // Roep hier de functie aan om naar de volgende vraag te gaan
       goToNextQuestion(overlayContent);
     });
   }
 
   function goToNextQuestion(overlayContent) {
-    // Verwijder alle vorige knoppen en antwoorden
     overlayContent.querySelectorAll('.quiz-answer').forEach(answerButton => {
         answerButton.remove();
     });
@@ -180,7 +170,6 @@ document.addEventListener('DOMContentLoaded', function() {
     overlayContent.querySelector('.answer-status').remove();
     overlayContent.querySelector('.next-question-button').remove();
 
-    // Toon de volgende vraag
     const currentQuestionIndex = parseInt(overlayContent.querySelector('h2').textContent.split(':')[0].split(' ')[1]) - 1;
     const nextQuestionIndex = currentQuestionIndex + 1;
     if (nextQuestionIndex < questions.length) {
@@ -188,7 +177,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const quizQuestion = overlayContent.querySelector('h2');
         quizQuestion.textContent = `Vraag ${nextQuestionIndex + 1}: ${nextQuestion.question}`;
 
-        // Voeg de antwoordopties voor de volgende vraag toe
         const answers = nextQuestion.answers;
 
         answers.forEach(answer => {
@@ -197,17 +185,13 @@ document.addEventListener('DOMContentLoaded', function() {
             answerButton.classList.add('quiz-answer');
             overlayContent.appendChild(answerButton);
 
-            // Event listener toevoegen aan de antwoordknoppen
             answerButton.addEventListener('click', function () {
-                // Controleer of het gegeven antwoord correct is
                 const correctAnswer = nextQuestion.correctAnswer;
                 if (answer === correctAnswer) {
                     answerButton.classList.add('correct-answer');
-                    // Als dit niet de laatste vraag is, voeg dan de knop voor de volgende vraag toe
                     if (nextQuestionIndex + 1 < questions.length) {
                         addNextQuestionButton(overlayContent);
                     } else {
-                        // Als dit de laatste vraag is, toon de felicitatietekst en de knop "Beëindig quiz"
                         const congratsText = document.createElement('p');
                         congratsText.textContent = 'Gefeliciteerd, je hebt alles goed!';
                         overlayContent.appendChild(congratsText);
@@ -225,22 +209,18 @@ document.addEventListener('DOMContentLoaded', function() {
                     answerButton.classList.add('incorrect-answer');
                 }
 
-                // Voeg tekst toe die aangeeft of het antwoord goed of fout is
                 const answerStatus = overlayContent.querySelector('.answer-status');
                 if (!answerStatus) {
-                    // Als er nog geen paragraaf is toegevoegd, maak er een en voeg deze toe
                     const newAnswerStatus = document.createElement('p');
                     newAnswerStatus.classList.add('answer-status');
                     overlayContent.appendChild(newAnswerStatus);
                 }
 
-                // Update de tekst van het bestaande paragraafelement
                 const existingAnswerStatus = overlayContent.querySelector('.answer-status');
                 existingAnswerStatus.textContent = answer === correctAnswer ? 'Goed!' : 'Fout!';
             });
         });
     } else {
-        // Als er geen volgende vraag meer is, sluit dan gewoon het quizoverlay
         document.body.removeChild(overlayContent.parentNode);
     }
 }
@@ -300,4 +280,3 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('scroll', preventDefaultScroll);
   }
 });
-
