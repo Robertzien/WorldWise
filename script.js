@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const overlayMenu = document.querySelectorAll('.category');
   const quizButton = document.querySelector('.quiz-button');
 
+
   const articles = {
     'Hoofdstad': {
       title: 'De hoofdstad van Duitsland is Berlijn.',
@@ -116,20 +117,25 @@ document.addEventListener('DOMContentLoaded', function() {
         const answerStatus = document.createElement('p');
         answerStatus.textContent = answer === correctAnswer ? 'Goed!' : 'Fout!';
         overlayContent.appendChild(answerStatus);
-  
-        // Verwijder de knop voor de volgende vraag
-        overlayContent.removeChild(nextQuestionButton);
-  
+
+        // Verwijder de knop voor de volgende vraag als die bestaat
+        const nextQuestionButton = document.querySelector('.next-question-button');
+        if (nextQuestionButton) {
+          overlayContent.removeChild(nextQuestionButton);
+        }
+
         // Voeg een knop toe voor de volgende vraag
         if (answer === correctAnswer) {
           const nextQuestionButton = document.createElement('button');
           nextQuestionButton.textContent = 'Volgende vraag';
           nextQuestionButton.classList.add('next-question-button');
           overlayContent.appendChild(nextQuestionButton);
-          
-          // nextQuestionButton.addEventListener('click', function() {
-          //   // Voeg hier de logica toe om naar de volgende vraag te gaan
-          // });
+
+          // Voeg een event listener toe aan de knop voor de volgende vraag
+          nextQuestionButton.addEventListener('click', function() {
+              // Roep hier de functie aan om naar de volgende vraag te gaan
+              goToNextQuestion();
+          });
         }
       });
     });
@@ -144,6 +150,13 @@ document.addEventListener('DOMContentLoaded', function() {
     closeButtonClone.addEventListener('click', function() {
       document.body.removeChild(quizOverlay);
     });
+  }
+
+  function goToNextQuestion() {
+    // Voeg hier de logica toe om naar de volgende vraag te gaan
+    // Dit kan betekenen dat je een nieuwe quizvraag toont, de quiz reset, etc.
+    // Voor nu kunnen we een eenvoudige console.log gebruiken om te controleren of de functie correct wordt aangeroepen
+    console.log('Naar de volgende vraag gaan...');
   }
 
   closeButton.addEventListener('click', function() {
@@ -195,4 +208,5 @@ document.addEventListener('DOMContentLoaded', function() {
     overlay.style.display = 'flex';
     displayArticle(category);
   }
+
 });
