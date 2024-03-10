@@ -108,11 +108,11 @@ document.addEventListener('DOMContentLoaded', function() {
   
     // Quizvraag toevoegen
     const quizQuestion = document.createElement('h2');
-    quizQuestion.textContent = 'Vraag 1: Wat is de hoofdstad van Duitsland?';
+    quizQuestion.textContent = 'Vraag 1: ' + questions[0].question;
     overlayContent.appendChild(quizQuestion);
   
     // Quizantwoorden toevoegen
-    const answers = ['Berlijn', 'Parijs', 'Londen', 'Rome'];
+    const answers = questions[0].answers;
   
     answers.forEach(answer => {
       const answerButton = document.createElement('button');
@@ -123,9 +123,10 @@ document.addEventListener('DOMContentLoaded', function() {
       // Event listener toevoegen aan de antwoordknoppen
       answerButton.addEventListener('click', function() {
         // Controleer of het gegeven antwoord correct is
-        const correctAnswer = 'Berlijn';
+        const correctAnswer = questions[0].correctAnswer;
         if (answer === correctAnswer) {
           answerButton.classList.add('correct-answer');
+          addNextQuestionButton(overlayContent);
         } else {
           answerButton.classList.add('incorrect-answer');
         }
@@ -142,27 +143,6 @@ document.addEventListener('DOMContentLoaded', function() {
         // Update de tekst van het bestaande paragraafelement
         const existingAnswerStatus = overlayContent.querySelector('.answer-status');
         existingAnswerStatus.textContent = answer === correctAnswer ? 'Goed!' : 'Fout!';
-
-
-        // Verwijder de knop voor de volgende vraag als die bestaat
-        const nextQuestionButton = document.querySelector('.next-question-button');
-        if (nextQuestionButton) {
-          overlayContent.removeChild(nextQuestionButton);
-        }
-
-        // Voeg een knop toe voor de volgende vraag
-        if (answer === correctAnswer) {
-          const nextQuestionButton = document.createElement('button');
-          nextQuestionButton.textContent = 'Volgende vraag';
-          nextQuestionButton.classList.add('next-question-button');
-          overlayContent.appendChild(nextQuestionButton);
-
-          // Voeg een event listener toe aan de knop voor de volgende vraag
-          nextQuestionButton.addEventListener('click', function() {
-              // Roep hier de functie aan om naar de volgende vraag te gaan
-              goToNextQuestion();
-          });
-        }
       });
     });
   
@@ -178,12 +158,94 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  function goToNextQuestion() {
-    // Voeg hier de logica toe om naar de volgende vraag te gaan
-    // Dit kan betekenen dat je een nieuwe quizvraag toont, de quiz reset, etc.
-    // Voor nu kunnen we een eenvoudige console.log gebruiken om te controleren of de functie correct wordt aangeroepen
-    console.log('Naar de volgende vraag gaan...');
+  function addNextQuestionButton(overlayContent) {
+    const nextQuestionButton = document.createElement('button');
+    nextQuestionButton.textContent = 'Volgende vraag';
+    nextQuestionButton.classList.add('next-question-button');
+    overlayContent.appendChild(nextQuestionButton);
+
+    // Voeg een event listener toe aan de knop voor de volgende vraag
+    nextQuestionButton.addEventListener('click', function() {
+      // Roep hier de functie aan om naar de volgende vraag te gaan
+      goToNextQuestion(overlayContent);
+    });
   }
+
+  function goToNextQuestion(overlayContent) {
+    // Verwijder alle vorige knoppen en antwoorden
+    overlayContent.querySelectorAll('.quiz-answer').forEach(answerButton => {
+        answerButton.remove();
+    });
+
+    overlayContent.querySelector('.answer-status').remove();
+    overlayContent.querySelector('.next-question-button').remove();
+
+    // Toon de volgende vraag
+    const currentQuestionIndex = parseInt(overlayContent.querySelector('h2').textContent.split(':')[0].split(' ')[1]) - 1;
+    const nextQuestionIndex = currentQuestionIndex + 1;
+    if (nextQuestionIndex < questions.length) {
+        const nextQuestion = questions[nextQuestionIndex];
+        const quizQuestion = overlayContent.querySelector('h2');
+        quizQuestion.textContent = `Vraag ${nextQuestionIndex + 1}: ${nextQuestion.question}`;
+
+        // Voeg de antwoordopties voor de volgende vraag toe
+        const answers = nextQuestion.answers;
+
+        answers.forEach(answer => {
+            const answerButton = document.createElement('button');
+            answerButton.textContent = answer;
+            answerButton.classList.add('quiz-answer');
+            overlayContent.appendChild(answerButton);
+
+            // Event listener toevoegen aan de antwoordknoppen
+            answerButton.addEventListener('click', function () {
+                // Controleer of het gegeven antwoord correct is
+                const correctAnswer = nextQuestion.correctAnswer;
+                if (answer === correctAnswer) {
+                    answerButton.classList.add('correct-answer');
+                    // Als dit niet de laatste vraag is, voeg dan de knop voor de volgende vraag toe
+                    if (nextQuestionIndex + 1 < questions.length) {
+                        addNextQuestionButton(overlayContent);
+                    } else {
+                        // Als dit de laatste vraag is, toon de felicitatietekst en de knop "Beëindig quiz"
+                        const congratsText = document.createElement('p');
+                        congratsText.textContent = 'Gefeliciteerd, je hebt alles goed!';
+                        overlayContent.appendChild(congratsText);
+
+                        const endQuizButton = document.createElement('button');
+                        endQuizButton.textContent = 'Beëindig quiz';
+                        endQuizButton.classList.add('end-quiz-button');
+                        overlayContent.appendChild(endQuizButton);
+
+                        endQuizButton.addEventListener('click', function() {
+                            document.body.removeChild(overlayContent.parentNode);
+                        });
+                    }
+                } else {
+                    answerButton.classList.add('incorrect-answer');
+                }
+
+                // Voeg tekst toe die aangeeft of het antwoord goed of fout is
+                const answerStatus = overlayContent.querySelector('.answer-status');
+                if (!answerStatus) {
+                    // Als er nog geen paragraaf is toegevoegd, maak er een en voeg deze toe
+                    const newAnswerStatus = document.createElement('p');
+                    newAnswerStatus.classList.add('answer-status');
+                    overlayContent.appendChild(newAnswerStatus);
+                }
+
+                // Update de tekst van het bestaande paragraafelement
+                const existingAnswerStatus = overlayContent.querySelector('.answer-status');
+                existingAnswerStatus.textContent = answer === correctAnswer ? 'Goed!' : 'Fout!';
+            });
+        });
+    } else {
+        // Als er geen volgende vraag meer is, sluit dan gewoon het quizoverlay
+        document.body.removeChild(overlayContent.parentNode);
+    }
+}
+
+
 
   closeButton.addEventListener('click', function() {
     document.body.style.overflow = 'auto';
@@ -232,7 +294,10 @@ document.addEventListener('DOMContentLoaded', function() {
     landNaamElement.textContent = landNaam;
     document.body.style.overflow = 'hidden';
     overlay.style.display = 'flex';
+    overlay.querySelector('.category-name').textContent = category;
     displayArticle(category);
-  }
 
+    window.addEventListener('scroll', preventDefaultScroll);
+  }
 });
+
