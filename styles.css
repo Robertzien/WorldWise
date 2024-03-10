@@ -234,3 +234,7 @@ path:hover {
 .incorrect-answer {
     background-color: #FF6347; /* Rood */
 }
+
+.next-question-button {
+    width: 15%;
+}
