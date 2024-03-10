@@ -8,7 +8,22 @@ body {
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background-color: #f0f0f0;
+    background-color: rgb(225, 247, 255);
+    position: relative;
+}
+
+.logodiv {
+    position: fixed;
+    left: 2rem;
+    top: 2rem;
+    background: #ff8c00;
+    padding: 1rem;
+    border-radius: 1rem;
+    padding-bottom: .55rem;
+    img {
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
 }
 
 button {
