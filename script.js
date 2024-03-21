@@ -5,31 +5,13 @@ document.addEventListener('DOMContentLoaded', function() {
   const overlayMenu = document.querySelectorAll('.category');
   const quizButton = document.querySelector('.quiz-button');
   let _startX = 0,
-  _startY = 0,
-  _scrollTop = 0,
-  _scrollLeft = 0;
+    _startY = 0,
+    _scrollTop = 0,
+    _scrollLeft = 0;
+  let isOverlayOpen = false; // Variabele om bij te houden of de overlay open is
 
-document.onmousedown = OnMouseDown;
-document.onmouseup = OnMouseUp;
-
-function OnMouseDown(event) {
-    document.onmousemove = OnMouseMove;
-    _startX = event.clientX;
-    _startY = event.clientY;
-    _scrollTop = document.documentElement.scrollTop;
-    _scrollLeft = document.documentElement.scrollLeft;
-}
-
-function OnMouseMove(event) {
-    window.scrollTo({
-        left: _scrollLeft + (_startX - event.clientX),
-        top: _scrollTop + (_startY - event.clientY)
-    });
-}
-
-function OnMouseUp() {
-    document.onmousemove = null;
-}
+  document.onmousedown = OnMouseDown;
+  document.onmouseup = OnMouseUp;
 
   const questions = [
     {
@@ -119,7 +101,28 @@ function OnMouseUp() {
       `
     }
   };
-  
+
+  function OnMouseDown(event) {
+    if (!isOverlayOpen) { // Controleren of de overlay open is voordat het slepen begint
+      document.onmousemove = OnMouseMove;
+      _startX = event.clientX;
+      _startY = event.clientY;
+      _scrollTop = document.documentElement.scrollTop;
+      _scrollLeft = document.documentElement.scrollLeft;
+    }
+  }
+
+  function OnMouseMove(event) {
+    window.scrollTo({
+      left: _scrollLeft + (_startX - event.clientX),
+      top: _scrollTop + (_startY - event.clientY)
+    });
+  }
+
+  function OnMouseUp() {
+    document.onmousemove = null;
+  }
+
   quizButton.addEventListener('click', function() {
     showQuizOverlay();
   });
@@ -127,23 +130,23 @@ function OnMouseUp() {
   function showQuizOverlay() {
     const quizOverlay = document.createElement('div');
     quizOverlay.classList.add('overlay');
-  
+
     const overlayContent = document.createElement('div');
     overlayContent.classList.add('quiz-overlay-content');
     quizOverlay.appendChild(overlayContent);
-  
+
     const quizQuestion = document.createElement('h2');
     quizQuestion.textContent = 'Vraag 1: ' + questions[0].question;
     overlayContent.appendChild(quizQuestion);
-  
+
     const answers = questions[0].answers;
-  
+
     answers.forEach(answer => {
       const answerButton = document.createElement('button');
       answerButton.textContent = answer;
       answerButton.classList.add('quiz-answer');
       overlayContent.appendChild(answerButton);
-  
+
       answerButton.addEventListener('click', function() {
         const correctAnswer = questions[0].correctAnswer;
         if (answer === correctAnswer) {
@@ -152,7 +155,7 @@ function OnMouseUp() {
         } else {
           answerButton.classList.add('incorrect-answer');
         }
-        
+
         const answerStatus = overlayContent.querySelector('.answer-status');
         if (!answerStatus) {
           const newAnswerStatus = document.createElement('p');
@@ -164,14 +167,14 @@ function OnMouseUp() {
         existingAnswerStatus.textContent = answer === correctAnswer ? 'Goed!' : 'Fout!';
       });
     });
-  
+
     const closeButtonClone = closeButton.cloneNode(true);
     overlayContent.appendChild(closeButtonClone);
-  
+
     document.body.appendChild(quizOverlay);
-  
+
     quizOverlay.style.display = 'block';
-  
+
     closeButtonClone.addEventListener('click', function() {
       document.body.removeChild(quizOverlay);
     });
@@ -190,7 +193,7 @@ function OnMouseUp() {
 
   function goToNextQuestion(overlayContent) {
     overlayContent.querySelectorAll('.quiz-answer').forEach(answerButton => {
-        answerButton.remove();
+      answerButton.remove();
     });
 
     overlayContent.querySelector('.answer-status').remove();
@@ -199,63 +202,62 @@ function OnMouseUp() {
     const currentQuestionIndex = parseInt(overlayContent.querySelector('h2').textContent.split(':')[0].split(' ')[1]) - 1;
     const nextQuestionIndex = currentQuestionIndex + 1;
     if (nextQuestionIndex < questions.length) {
-        const nextQuestion = questions[nextQuestionIndex];
-        const quizQuestion = overlayContent.querySelector('h2');
-        quizQuestion.textContent = `Vraag ${nextQuestionIndex + 1}: ${nextQuestion.question}`;
+      const nextQuestion = questions[nextQuestionIndex];
+      const quizQuestion = overlayContent.querySelector('h2');
+      quizQuestion.textContent = `Vraag ${nextQuestionIndex + 1}: ${nextQuestion.question}`;
 
-        const answers = nextQuestion.answers;
+      const answers = nextQuestion.answers;
 
-        answers.forEach(answer => {
-            const answerButton = document.createElement('button');
-            answerButton.textContent = answer;
-            answerButton.classList.add('quiz-answer');
-            overlayContent.appendChild(answerButton);
+      answers.forEach(answer => {
+        const answerButton = document.createElement('button');
+        answerButton.textContent = answer;
+        answerButton.classList.add('quiz-answer');
+        overlayContent.appendChild(answerButton);
 
-            answerButton.addEventListener('click', function () {
-                const correctAnswer = nextQuestion.correctAnswer;
-                if (answer === correctAnswer) {
-                    answerButton.classList.add('correct-answer');
-                    if (nextQuestionIndex + 1 < questions.length) {
-                        addNextQuestionButton(overlayContent);
-                    } else {
-                        const congratsText = document.createElement('p');
-                        congratsText.textContent = 'Gefeliciteerd, je hebt alles goed!';
-                        overlayContent.appendChild(congratsText);
+        answerButton.addEventListener('click', function () {
+          const correctAnswer = nextQuestion.correctAnswer;
+          if (answer === correctAnswer) {
+            answerButton.classList.add('correct-answer');
+            if (nextQuestionIndex + 1 < questions.length) {
+              addNextQuestionButton(overlayContent);
+            } else {
+              const congratsText = document.createElement('p');
+              congratsText.textContent = 'Gefeliciteerd, je hebt alles goed!';
+              overlayContent.appendChild(congratsText);
 
-                        const endQuizButton = document.createElement('button');
-                        endQuizButton.textContent = 'Beëindig quiz';
-                        endQuizButton.classList.add('end-quiz-button');
-                        overlayContent.appendChild(endQuizButton);
+              const endQuizButton = document.createElement('button');
+              endQuizButton.textContent = 'Beëindig quiz';
+              endQuizButton.classList.add('end-quiz-button');
+              overlayContent.appendChild(endQuizButton);
 
-                        endQuizButton.addEventListener('click', function() {
-                            document.body.removeChild(overlayContent.parentNode);
-                        });
-                    }
-                } else {
-                    answerButton.classList.add('incorrect-answer');
-                }
+              endQuizButton.addEventListener('click', function() {
+                document.body.removeChild(overlayContent.parentNode);
+              });
+            }
+          } else {
+            answerButton.classList.add('incorrect-answer');
+          }
 
-                const answerStatus = overlayContent.querySelector('.answer-status');
-                if (!answerStatus) {
-                    const newAnswerStatus = document.createElement('p');
-                    newAnswerStatus.classList.add('answer-status');
-                    overlayContent.appendChild(newAnswerStatus);
-                }
+          const answerStatus = overlayContent.querySelector('.answer-status');
+          if (!answerStatus) {
+            const newAnswerStatus = document.createElement('p');
+            newAnswerStatus.classList.add('answer-status');
+            overlayContent.appendChild(newAnswerStatus);
+          }
 
-                const existingAnswerStatus = overlayContent.querySelector('.answer-status');
-                existingAnswerStatus.textContent = answer === correctAnswer ? 'Goed!' : 'Fout!';
-            });
+          const existingAnswerStatus = overlayContent.querySelector('.answer-status');
+          existingAnswerStatus.textContent = answer === correctAnswer ? 'Goed!' : 'Fout!';
         });
+      });
     } else {
-        document.body.removeChild(overlayContent.parentNode);
+      document.body.removeChild(overlayContent.parentNode);
     }
-}
-
-
+  }
 
   closeButton.addEventListener('click', function() {
     document.body.style.overflow = 'auto';
     overlay.style.display = 'none';
+    isOverlayOpen = false; // Overlay wordt gesloten, de variabele bijwerken
   });
 
   overlayMenu.forEach(menuItem => {
@@ -304,5 +306,6 @@ function OnMouseUp() {
     displayArticle(category);
 
     window.addEventListener('scroll', preventDefaultScroll);
+    isOverlayOpen = true; // Overlay wordt geopend, de variabele bijwerken
   }
 });

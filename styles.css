@@ -7,7 +7,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100vh;
+    height: 150vh;
+    width: 150vw;
     background-color: rgb(225, 247, 255);
     position: relative;
 }
@@ -42,6 +43,9 @@ button:hover {
 #world-map {
     width: 50vw;
     height: 50vh;
+    position: absolute;
+    left: 8rem;
+    top: 20rem;
 }
 
 path {
