@@ -23,6 +23,18 @@ body {
     padding-bottom: .55rem;
 }
 
+.tooltip {
+    position: absolute;
+    background-color: white;
+    color: black;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 16px;
+    pointer-events: none;
+    z-index: 1000;
+    border: solid 3px #FFB800;
+  }
+
 button {
     padding: .75rem 1.25rem;
     background: #FFB800;

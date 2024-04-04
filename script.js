@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
   const mapContainer = document.getElementById('world-map');
   const landNaamElement = document.getElementById('land-naam');
+  const overlay = document.querySelector('.overlay');
   const closeButton = document.getElementById('close-button');
   const overlayMenu = document.querySelectorAll('.category');
   const quizButton = document.querySelector('.quiz-button');
@@ -63,7 +64,9 @@ document.addEventListener('DOMContentLoaded', function() {
         <br><br>
         Maar het zijn niet alleen de cijfers en prestaties die de Duitse bevolking zo bijzonder maken. Het zijn ook de kleine dingen, zoals de liefde voor goed eten, bier en gezelligheid, die de Duitse cultuur zo warm en gastvrij maken.
         <br><br>
-        Kortom, de bevolking van Duitsland is een levendige mix van traditie en moderniteit, van historische achtergronden en toekomstgerichte denkwijzen. Of je nu een liefhebber bent van geschiedenis, cultuur, natuur of technologie, Duitsland heeft voor ieder wat wils.
+        Kortom, de bevolking van
+
+ Duitsland is een levendige mix van traditie en moderniteit, van historische achtergronden en toekomstgerichte denkwijzen. Of je nu een liefhebber bent van geschiedenis, cultuur, natuur of technologie, Duitsland heeft voor ieder wat wils.
       `
     },
     'Landschap': {
@@ -139,7 +142,9 @@ document.addEventListener('DOMContentLoaded', function() {
     quizQuestion.textContent = 'Vraag 1: ' + questions[0].question;
     overlayContent.appendChild(quizQuestion);
 
-    const answers = questions[0].answers;
+    const
+
+ answers = questions[0].answers;
 
     answers.forEach(answer => {
       const answerButton = document.createElement('button');
@@ -284,6 +289,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
       mapContainer.querySelectorAll('path').forEach(path => {
         path.addEventListener('click', handlePathClick);
+        path.addEventListener('mouseenter', handlePathMouseEnter); // Veranderd
+        path.addEventListener('mouseleave', handlePathMouseLeave);
       });
     })
     .catch(error => console.error('Fout bij het laden van de SVG:', error));
@@ -292,6 +299,16 @@ document.addEventListener('DOMContentLoaded', function() {
     const landNaam = this.getAttribute('class') || this.getAttribute('name');
     const trimmedLandNaam = landNaam ? landNaam.trim() : '';
     showOverlay(trimmedLandNaam, 'Hoofdstad');
+  }
+
+  function handlePathMouseEnter(event) {
+    const landNaam = this.getAttribute('class') || this.getAttribute('name');
+    const trimmedLandNaam = landNaam ? landNaam.trim() : '';
+    showTooltip(trimmedLandNaam, this); // Geef het path-element door
+  }
+
+  function handlePathMouseLeave() {
+    hideTooltip();
   }
 
   function preventDefaultScroll(e) {
@@ -307,5 +324,34 @@ document.addEventListener('DOMContentLoaded', function() {
 
     window.addEventListener('scroll', preventDefaultScroll);
     isOverlayOpen = true; // Overlay wordt geopend, de variabele bijwerken
+  }
+
+  function showTooltip(landNaam, pathElement) {
+    const tooltip = document.createElement('div');
+    tooltip.classList.add('tooltip');
+    tooltip.textContent = landNaam;
+  
+    // Haal de coördinaten van het path-element binnen de container op
+    const mapContainer = document.getElementById('world-map');
+    const pathRect = pathElement.getBoundingClientRect();
+  
+    // Bereken de positie van de tooltip ten opzichte van de container
+    const containerRect = mapContainer.getBoundingClientRect();
+    const left = pathRect.left - containerRect.left + pathRect.width / 2;
+    const top = pathRect.top - containerRect.top - 20; // 10 is de offset van het pad waarboven de tooltip wordt geplaatst
+  
+    // Stel de positie van de tooltip in
+    tooltip.style.left = left + 'px';
+    tooltip.style.top = top + 'px';
+  
+    // Voeg de tooltip toe aan de kaartcontainer
+    mapContainer.appendChild(tooltip);
+  }
+
+  function hideTooltip() {
+    const tooltip = document.querySelector('.tooltip');
+    if (tooltip) {
+      tooltip.remove();
+    }
   }
 });
