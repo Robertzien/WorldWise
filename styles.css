@@ -4,6 +4,11 @@
 
 body {
     margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 150vh;
+    width: 150vw;
     background-color: rgb(225, 247, 255);
     position: relative;
 }
@@ -16,19 +21,6 @@ body {
     padding: 1rem;
     border-radius: 1rem;
     padding-bottom: .55rem;
-    z-index: 99;
-}
-
-.tooltip {
-    position: absolute;
-    background-color: white;
-    color: black;
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    font-size: 16px;
-    pointer-events: none;
-    z-index: 1000;
-    border: solid 3px #FFB800;
 }
 
 button {
@@ -37,6 +29,7 @@ button {
     font-size: 18px;
     font-weight: bold;
     border-radius: 2rem;
+    width: 85%;
     border: none;
     margin-top: 2rem;
     cursor: pointer;
@@ -57,7 +50,7 @@ button:hover {
 
 path {
     fill: #2EC771;
-    transition: fill 0.3s ease;
+    transition: fill 0.3s ease; 
     cursor: pointer;
 }
 
@@ -75,22 +68,22 @@ path:hover {
     display: none;
     align-items: center;
     justify-content: center;
-    z-index: 999;
 }
 
 .overlay-content {
     background: #fff;
     padding: 20px;
     border-radius: 5px;
-    width: calc(100vw - 40px);
-    height: calc(100vh - 40px);
+    width: 80vw;
+    height: 90vh;
     box-sizing: border-box;
     overflow-y: auto;
     border: solid #FFB800 6px;
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    transform: translate(0, 0);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-height: 75%;
     display: flex;
     flex-flow: row nowrap;
     align-items: flex-start;
@@ -100,7 +93,7 @@ path:hover {
     background: #fff;
     padding: 20px;
     border-radius: 5px;
-    width: 80%;
+    width: 80vw;
     height: 90vh;
     box-sizing: border-box;
     overflow-y: auto;
@@ -149,12 +142,11 @@ path:hover {
     height: auto;
     position: relative;
 }
-
+  
 .overlay-menu {
     display: flex;
     flex-flow: column nowrap;
     margin-top: 40%;
-    margin-bottom: 3rem;
 }
 
 .category {
@@ -186,7 +178,7 @@ path:hover {
     font-size: 20px;
     font-weight: bold;
 }
-
+  
 .overlay-right {
     padding: 1rem 2rem;
     padding-right: 5rem;
@@ -209,15 +201,16 @@ path:hover {
     }
 }
 
+.article-image {
+    margin-right: 4rem;
+}
+
 .article-image img {
-    max-width: 100%; 
-    height: auto; 
-    margin-right: 3rem;
+    width: 400px;
 }
 
 .article-intro {
     padding-right: 2rem;
-    flex: 1; 
 }
 
 .article-intro h1 {
@@ -243,5 +236,5 @@ path:hover {
 }
 
 .next-question-button {
-    width: fit-content;
+    width: 15%;
 }
